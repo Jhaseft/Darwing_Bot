@@ -25,7 +25,6 @@ export default function Welcome({ trades, filters }) {
             <div style={{ padding: '2rem', fontFamily: 'sans-serif' }}>
                 <h1 style={{ marginBottom: '1.5rem' }}>Trades</h1>
 
-                {/* Búsqueda por fecha */}
                 <form onSubmit={search} style={{ display: 'flex', gap: '0.5rem', marginBottom: '1.5rem' }}>
                     <input
                         type="date"
@@ -39,12 +38,12 @@ export default function Welcome({ trades, filters }) {
                     )}
                 </form>
 
-                {/* Tabla */}
+
                 <div style={{ overflowX: 'auto' }}>
                     <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.875rem' }}>
                         <thead>
                             <tr style={{ background: '#f3f4f6', textAlign: 'left' }}>
-                                {['ID','Ticket','Symbol','Type','Volume','Price Open','Stop Loss','Take Profit','Magic','Comment','Retcode','Status','Created At'].map(h => (
+                                {['ID', 'Ticket', 'Symbol', 'Type', 'Volume', 'Price Open', 'diff_sl', 'Stop Loss', 'diff_tp', 'Take Profit', 'Magic', 'Retcode', 'Status', 'Created At'].map(h => (
                                     <th key={h} style={thStyle}>{h}</th>
                                 ))}
                             </tr>
@@ -62,22 +61,43 @@ export default function Welcome({ trades, filters }) {
                                     <td style={tdStyle}>{t.ticket}</td>
                                     <td style={tdStyle}>{t.symbol}</td>
                                     <td style={tdStyle}>{t.type}</td>
-                                    <td style={tdStyle}>{t.volume}</td>
-                                    <td style={tdStyle}>{t.price_open}</td>
-                                    <td style={tdStyle}>{t.stop_loss}</td>
-                                    <td style={tdStyle}>{t.take_profit}</td>
+                                    <td style={tdStyle}>
+                                        {t.volume != null ? Number(t.volume).toFixed(2) : "-"}
+                                    </td>
+                                    <td style={tdStyle}>
+                                        {t.price_open != null ? Number(t.price_open).toFixed(2) : "-"}
+                                    </td>
+                                    <td style={tdStyle}>
+                                        {t.diff_sl != null ? Number(t.diff_sl).toFixed(2) : "-"}
+                                    </td>
+                                    <td style={tdStyle}>
+                                        {t.stop_loss != null ? Number(t.stop_loss).toFixed(2) : "-"}
+                                    </td>
+                                    <td style={tdStyle}>
+                                        {t.diff_tp != null ? Number(t.diff_tp).toFixed(2) : "-"}
+                                    </td>
+                                    <td style={tdStyle}>
+                                        {t.take_profit != null ? Number(t.take_profit).toFixed(2) : "-"}
+                                    </td>
                                     <td style={tdStyle}>{t.magic_number}</td>
-                                    <td style={tdStyle}>{t.comment}</td>
                                     <td style={tdStyle}>{t.retcode}</td>
                                     <td style={tdStyle}>{t.status}</td>
-                                    <td style={tdStyle}>{t.created_at}</td>
+                                    <td style={tdStyle}>
+                                        {new Date(t.created_at).toLocaleString("es-BO", {
+                                            year: "numeric",
+                                            month: "2-digit",
+                                            day: "2-digit",
+                                            hour: "2-digit",
+                                            minute: "2-digit",
+                                            second: "2-digit",
+                                        })}
+                                    </td>
                                 </tr>
                             ))}
                         </tbody>
                     </table>
                 </div>
 
-                {/* Paginación */}
                 <div style={{ display: 'flex', gap: '0.5rem', marginTop: '1.5rem', flexWrap: 'wrap', alignItems: 'center' }}>
                     {trades.links.map((link, i) => (
                         <button
