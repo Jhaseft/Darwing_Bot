@@ -23,6 +23,11 @@ Route::get('/', function (Request $request) {
     ]);
 });
 
+
+Route::post('/mt5/close', [Mt5Controller::class, 'close']);
+
+
+
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
